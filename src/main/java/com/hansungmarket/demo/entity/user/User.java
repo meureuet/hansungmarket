@@ -34,6 +34,10 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    @Column
+    @JoinColumn(name = "enabled")
+    private Boolean enabled;
+
     @Builder
     private User(String username, String password, String nickname, String email) {
         this.username = username;
@@ -45,5 +49,10 @@ public class User {
     // 권한 지정
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    // enabled 지정
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 }

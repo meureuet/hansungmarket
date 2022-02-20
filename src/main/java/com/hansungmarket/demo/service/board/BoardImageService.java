@@ -32,6 +32,7 @@ public class BoardImageService {
         return boardImageRepository.findByBoardId(id);
     }
 
+    // 이미지 저장(파일, DB)
     @Transactional
     public BoardImage create(Board board, MultipartFile image) throws IOException {
         // 이미지 저장될 경로
@@ -55,13 +56,15 @@ public class BoardImageService {
 
         return boardImageRepository.save(boardImageDto.toEntity());
     }
-
+    
+    // 실제 이미지 파일 삭제
     @Transactional
     public void deleteFile(BoardImage image) {
         File deleteFile = new File(image.getStoredFilePath(), image.getStoredFileName());
         deleteFile.delete();
     }
 
+    // DB의 이미지 정보 삭제
     @Transactional
     public void deleteByBoardId(Long id) {
         boardImageRepository.deleteByBoardId(id);
