@@ -24,4 +24,11 @@ public class AuthService {
         userRepository.save(user);
     }
 
+    // 로그인한 닉네임 가져오기
+    @Transactional(readOnly = true)
+    public String getLoginNickname(String username) {
+        User user = userRepository.findByUsername(username);
+        return user.getNickname();
+    }
+
 }

@@ -16,13 +16,13 @@ public class SignUpDto {
 
     private String email;
 
-    @Builder
-    private SignUpDto(String username, String password, String nickname, String email) {
-        this.username = username;
-        this.password = password;
-        this.nickname = nickname;
-        this.email = email;
-    }
+//    @Builder
+//    private SignUpDto(String username, String password, String nickname, String email) {
+//        this.username = username;
+//        this.password = password;
+//        this.nickname = nickname;
+//        this.email = email;
+//    }
 
     public User toEntity() {
         return User.builder()
