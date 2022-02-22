@@ -5,6 +5,7 @@ import com.hansungmarket.demo.dto.board.BoardResponseDto;
 import com.hansungmarket.demo.entity.board.Board;
 import com.hansungmarket.demo.entity.board.BoardImage;
 import com.hansungmarket.demo.repository.board.BoardRepository;
+import com.hansungmarket.demo.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final BoardImageService boardImageService;
+    private final UserRepository userRepository;
 
     // 모든 게시글 검색
     @Transactional(readOnly = true)
@@ -44,35 +46,32 @@ public class BoardService {
                 .map(BoardResponseDto::new)
                 .collect(Collectors.toList());
     }
-
-    // 게시글 생성(이미지 X)
+    
+    // 게시글 생성
     @Transactional
-    public BoardResponseDto create(BoardRequestDto requestDto) {
-        Board board = boardRepository.save(requestDto.toEntity());
-        return new BoardResponseDto(board);
-    }
+    public BoardResponseDto create(BoardRequestDto requestDto, List<MultipartFile> images, String username) throws IOException {
+        Board board = requestDto.toEntity();
+        // 유저정보 저장
+        board.setUser(userRepository.findByUsername(username));
 
-    // 게시글 생성(이미지 O)
-    @Transactional
-    public BoardResponseDto create(BoardRequestDto requestDto, List<MultipartFile> images) throws IOException {
         // 게시글 저장
-        Board board = boardRepository.save(requestDto.toEntity());
+        Board createdBoard = boardRepository.save(board);
 
         // 이미지가 없는 경우
         if (CollectionUtils.isEmpty(images)) {
-            return new BoardResponseDto(board);
+            return new BoardResponseDto(createdBoard);
         }
 
         // 이미지가 있는 경우
         List<BoardImage> boardImages = new ArrayList<>();
         for (MultipartFile image : images) {
             // 이미지 저장
-            BoardImage boardImage = boardImageService.create(board, image);
+            BoardImage boardImage = boardImageService.create(createdBoard, image);
             boardImages.add(boardImage);
         }
-        board.setBoardImages(boardImages);
+        createdBoard.setBoardImages(boardImages);
 
-        return new BoardResponseDto(board);
+        return new BoardResponseDto(createdBoard);
     }
 
     // 게시글 수정(이미지 O)

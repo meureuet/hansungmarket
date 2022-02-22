@@ -4,6 +4,7 @@ import com.hansungmarket.demo.dto.board.BoardRequestDto;
 import com.hansungmarket.demo.dto.board.BoardResponseDto;
 import com.hansungmarket.demo.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
@@ -20,8 +21,9 @@ public class BoardController {
     // 게시글 저장
     @PostMapping("/boards")
     public BoardResponseDto createBoard(@RequestPart(value = "board") @Valid BoardRequestDto requestDto,
-                                        @RequestPart(value = "images", required = false) List<MultipartFile> images) throws IOException {
-        return boardService.create(requestDto, images);
+                                        @RequestPart(value = "images", required = false) List<MultipartFile> images,
+                                        Authentication authentication) throws IOException {
+        return boardService.create(requestDto, images, authentication.getName());
     }
 
     // 게시글 리스트 출력

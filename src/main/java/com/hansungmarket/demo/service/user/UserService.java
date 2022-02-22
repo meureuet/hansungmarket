@@ -17,15 +17,18 @@ public class UserService {
     
     // 회원가입
     @Transactional
-    public void signUp(SignUpDto signUpDto) {
+    public Long signUp(SignUpDto signUpDto) {
         User user = signUpDto.toEntity();
         user.setRole(roleRepository.findByRoleName("ROLE_USER"));
         user.setEnabled(true);
 
+        // 유저 정보 저장(회원가입)
         userRepository.save(user);
+
+        return user.getId();
     }
 
-    // 로그인한 유저정보 가져오기
+    // 유저정보 가져오기
     @Transactional(readOnly = true)
     public UserDto getUser(String username) {
         User user = userRepository.findByUsername(username);

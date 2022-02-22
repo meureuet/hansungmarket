@@ -48,12 +48,16 @@ public class Board extends BaseTimeEntity {
         this.content = content;
         this.user = user;
     }
-    
-    // 게시글에 해당하는 이미지 리스트 저장
+
+    // 작성자 정보 저장
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public void setBoardImages(List<BoardImage> boardImages) {
         this.boardImages = boardImages;
     }
-    
+
     // 게시글 업데이트 기능
     public void update(String title, String goodsName, String goodsCategory, String content, List<BoardImage> boardImages) {
         this.title = title;

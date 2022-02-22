@@ -14,6 +14,8 @@ import java.util.List;
 public class BoardResponseDto {
     private Long id;
 
+    private String writer;
+
     private String title;
 
     private String goodsName;
@@ -30,6 +32,7 @@ public class BoardResponseDto {
 
     public BoardResponseDto(Board entity) {
         this.id = entity.getId();
+        this.writer = entity.getUser().getNickname();
         this.title = entity.getTitle();
         this.goodsName = entity.getGoodsName();
         this.goodsCategory = entity.getGoodsCategory();

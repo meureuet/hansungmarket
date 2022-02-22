@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
 
                 .and()
-//                .csrf().disable() // 테스트용
+                .csrf().disable() // 테스트용
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/boards/**").permitAll()

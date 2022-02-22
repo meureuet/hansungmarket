@@ -16,8 +16,8 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/users")
-    public void signUp(@RequestBody @Valid SignUpDto signUpDto) {
-        userService.signUp(signUpDto);
+    public Long signUp(@RequestBody @Valid SignUpDto signUpDto) {
+        return userService.signUp(signUpDto);
     }
 
     // 로그인한 회원정보 출력
