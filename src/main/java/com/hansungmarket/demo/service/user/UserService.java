@@ -1,6 +1,7 @@
 package com.hansungmarket.demo.service.user;
 
 import com.hansungmarket.demo.dto.user.SignUpDto;
+import com.hansungmarket.demo.dto.user.UserDto;
 import com.hansungmarket.demo.entity.user.User;
 import com.hansungmarket.demo.repository.user.RoleRepository;
 import com.hansungmarket.demo.repository.user.UserRepository;
@@ -10,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class AuthService {
+public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     
@@ -24,11 +25,10 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    // 로그인한 닉네임 가져오기
+    // 로그인한 유저정보 가져오기
     @Transactional(readOnly = true)
-    public String getLoginNickname(String username) {
+    public UserDto getUser(String username) {
         User user = userRepository.findByUsername(username);
-        return user.getNickname();
+        return new UserDto(user);
     }
-
 }

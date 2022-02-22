@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class BoardController {
 
     // 게시글 저장
     @PostMapping("/boards")
-    public BoardResponseDto createBoard(@RequestPart(value = "board") BoardRequestDto requestDto,
+    public BoardResponseDto createBoard(@RequestPart(value = "board") @Valid BoardRequestDto requestDto,
                                         @RequestPart(value = "images", required = false) List<MultipartFile> images) throws IOException {
         return boardService.create(requestDto, images);
     }
@@ -41,7 +42,7 @@ public class BoardController {
         return boardService.searchById(id);
     }
 
-    // 게시글 업데이트
+    // 게시글 수정
     @PutMapping("/boards/{id}")
     public BoardResponseDto updateBoard(@PathVariable Long id,
                                         @RequestPart(value = "board") BoardRequestDto requestDto,

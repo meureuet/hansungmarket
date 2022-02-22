@@ -5,15 +5,21 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @NoArgsConstructor
 public class BoardRequestDto {
+    @NotBlank
     private String title;
 
+    @NotBlank
     private String goodsName;
 
+    @NotBlank
     private String goodsCategory;
 
+    @NotBlank
     private String content;
 
     @Builder

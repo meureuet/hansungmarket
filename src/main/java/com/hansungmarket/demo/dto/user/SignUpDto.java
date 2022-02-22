@@ -5,15 +5,20 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @NoArgsConstructor
 public class SignUpDto {
+    @NotBlank(message = "아이디를 입력하세요.")
     private String username;
 
     private String password;
 
     private String nickname;
 
+    @Email
     private String email;
 
 //    @Builder

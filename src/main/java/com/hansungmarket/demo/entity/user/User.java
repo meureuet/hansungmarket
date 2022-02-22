@@ -1,12 +1,15 @@
 package com.hansungmarket.demo.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hansungmarket.demo.entity.board.Board;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,9 +37,13 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @Column
-    @JoinColumn(name = "enabled")
+    @Column(name = "enabled")
     private Boolean enabled;
+
+    @OneToMany(mappedBy = "user",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true)
+    private List<Board> board = new ArrayList<>();
 
     @Builder
     private User(String username, String password, String nickname, String email) {

@@ -1,5 +1,6 @@
 package com.hansungmarket.demo.entity.board;
 
+import com.hansungmarket.demo.entity.user.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,17 +31,22 @@ public class Board extends BaseTimeEntity {
     @Column(name = "content")
     private String content;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @OneToMany(mappedBy = "board",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true)
     private List<BoardImage> boardImages = new ArrayList<>();
 
     @Builder
-    private Board(String title, String goodsName, String goodsCategory, String content) {
+    private Board(String title, String goodsName, String goodsCategory, String content, User user) {
         this.title = title;
         this.goodsName = goodsName;
         this.goodsCategory = goodsCategory;
         this.content = content;
+        this.user = user;
     }
     
     // 게시글에 해당하는 이미지 리스트 저장
