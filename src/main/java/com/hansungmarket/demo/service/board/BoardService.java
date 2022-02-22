@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -76,9 +77,15 @@ public class BoardService {
 
     // 게시글 수정(이미지 O)
     @Transactional
-    public BoardResponseDto updateBoard(Long id, BoardRequestDto requestDto, List<MultipartFile> images) throws IOException {
+    public BoardResponseDto updateBoard(Long id, BoardRequestDto requestDto, List<MultipartFile> images, String username) throws IOException {
         Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
         List<BoardImage> boardImages = boardImageService.searchByBoardId(id);
+
+        String boardUsername = board.getUser().getUsername();
+        // 현재 사용자와 게시글 작성자가 다른 경우
+        if (!Objects.equals(boardUsername, username)) {
+            throw new RuntimeException("작성자가 일치하지 않습니다.");
+        }
 
         // 수정 전 게시글에 이미지 존재하면 전부 삭제
         if (!CollectionUtils.isEmpty(boardImages)) {
@@ -86,8 +93,9 @@ public class BoardService {
             for (BoardImage image : boardImages) {
                 boardImageService.deleteFile(image);
             }
-            // DB에 저장된 이미지 정보 삭제
-            boardImageService.deleteByBoardId(id);
+
+            // entity 이미지 목록 지우면 db에 반영(db 정보 삭제)
+            board.getBoardImages().clear();
         }
 
         // 수정 후 게시글에 이미지 존재하면 삽입
@@ -109,8 +117,15 @@ public class BoardService {
 
     // 게시글 삭제
     @Transactional
-    public void delete(Long id) {
+    public void delete(Long id, String username) {
+        Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
         List<BoardImage> boardImages = boardImageService.searchByBoardId(id);
+
+        String boardUsername = board.getUser().getUsername();
+        // 현재 사용자와 게시글 작성자가 다른 경우
+        if (!Objects.equals(boardUsername, username)) {
+            throw new RuntimeException("작성자가 일치하지 않습니다.");
+        }
 
         // 게시글에 이미지가 없는 경우
         if (CollectionUtils.isEmpty(boardImages)) {

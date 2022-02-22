@@ -48,14 +48,16 @@ public class BoardController {
     @PutMapping("/boards/{id}")
     public BoardResponseDto updateBoard(@PathVariable Long id,
                                         @RequestPart(value = "board") BoardRequestDto requestDto,
-                                        @RequestPart(value = "images", required = false) List<MultipartFile> images) throws IOException {
-        return boardService.updateBoard(id, requestDto, images);
+                                        @RequestPart(value = "images", required = false) List<MultipartFile> images,
+                                        Authentication authentication) throws IOException {
+        return boardService.updateBoard(id, requestDto, images, authentication.getName());
     }
     
     //게시글 삭제
     @DeleteMapping("/boards/{id}")
-    public void deleteBoard(@PathVariable Long id) {
-        boardService.delete(id);
+    public void deleteBoard(@PathVariable Long id,
+                            Authentication authentication) {
+        boardService.delete(id, authentication.getName());
     }
 
 }
