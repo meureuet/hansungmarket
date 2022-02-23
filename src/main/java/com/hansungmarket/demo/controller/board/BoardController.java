@@ -3,6 +3,7 @@ package com.hansungmarket.demo.controller.board;
 import com.hansungmarket.demo.dto.board.BoardRequestDto;
 import com.hansungmarket.demo.dto.board.BoardResponseDto;
 import com.hansungmarket.demo.service.board.BoardService;
+import com.hansungmarket.demo.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +16,10 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api")
 public class BoardController {
     private final BoardService boardService;
+    private final UserService userService;
 
     // 게시글 저장
     @PostMapping("/boards")
@@ -28,14 +31,20 @@ public class BoardController {
 
     // 게시글 리스트 출력
     @GetMapping("/boards")
-    public List<BoardResponseDto> searchAllBoards(@RequestParam(required = false) String category) {
-        // 전체검색
-        if (StringUtils.isEmpty(category)) {
-            return boardService.searchAll();
+    public List<BoardResponseDto> searchAllBoards(@RequestParam(required = false) String category,
+                                                  @RequestParam(required = false) String nickname) {
+        // 카테고리 검색
+        if (!StringUtils.isEmpty(category)) {
+            return boardService.searchByCategory(category);
+        }
+        // 작성자 검색
+        else if (!StringUtils.isEmpty(nickname)) {
+            Long userId = userService.getUserByNickname(nickname).getId();
+            return boardService.searchByUserId(userId);
         }
 
-        // 카테고리 검색
-        return boardService.searchByCategory(category);
+        // 전체검색
+        return boardService.searchAll();
     }
 
     // id에 해당하는 게시글 출력

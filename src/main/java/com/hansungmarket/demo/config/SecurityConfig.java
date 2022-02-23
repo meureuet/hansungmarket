@@ -26,11 +26,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable() // 테스트용
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/boards/**").permitAll()
-                .antMatchers("/boards/**").authenticated()
+                .antMatchers(HttpMethod.GET, "/api/boards/**").permitAll()
                 .antMatchers("/test/**").authenticated() // 테스트 url
-                .antMatchers(HttpMethod.GET, "/images/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/users").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/images/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/users").permitAll()
                 .anyRequest().authenticated()
 
                 .and()

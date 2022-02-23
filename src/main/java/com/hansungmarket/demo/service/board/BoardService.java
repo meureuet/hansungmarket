@@ -47,6 +47,14 @@ public class BoardService {
                 .map(BoardResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    // 사용자로 게시글 검색
+    @Transactional(readOnly = true)
+    public List<BoardResponseDto> searchByUserId(Long id) {
+        return boardRepository.findByUserId(id).stream()
+                .map(BoardResponseDto::new)
+                .collect(Collectors.toList());
+    }
     
     // 게시글 생성
     @Transactional
@@ -75,7 +83,7 @@ public class BoardService {
         return new BoardResponseDto(createdBoard);
     }
 
-    // 게시글 수정(이미지 O)
+    // 게시글 수정
     @Transactional
     public BoardResponseDto updateBoard(Long id, BoardRequestDto requestDto, List<MultipartFile> images, String username) throws IOException {
         Board board = boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
