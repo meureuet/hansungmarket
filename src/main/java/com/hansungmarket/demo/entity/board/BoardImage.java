@@ -27,7 +27,7 @@ public class BoardImage {
     private String storedFilePath;
 
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     @JoinColumn(name = "board_id")
     private Board board;
 

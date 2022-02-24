@@ -1,7 +1,7 @@
 package com.hansungmarket.demo.entity.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hansungmarket.demo.entity.board.Board;
+import com.hansungmarket.demo.entity.board.LikedBoard;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,7 +33,7 @@ public class User {
     private String email;
 
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     @JoinColumn(name = "role_id")
     private Role role;
 
@@ -43,7 +43,16 @@ public class User {
     @OneToMany(mappedBy = "user",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true)
-    private List<Board> board = new ArrayList<>();
+    private List<Board> postBoards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true)
+    private List<LikedBoard> likedBoards = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private Board board;
 
     @Builder
     private User(String username, String password, String nickname, String email) {

@@ -1,6 +1,5 @@
 package com.hansungmarket.demo.service.board;
 
-import com.hansungmarket.demo.dto.board.BoardImageDto;
 import com.hansungmarket.demo.entity.board.Board;
 import com.hansungmarket.demo.entity.board.BoardImage;
 import com.hansungmarket.demo.repository.board.BoardImageRepository;
@@ -47,14 +46,14 @@ public class BoardImageService {
         // 파일 저장
         image.transferTo(saveFile);
 
-        BoardImageDto boardImageDto = BoardImageDto.builder()
+        BoardImage boardImage = BoardImage.builder()
                 .originalFileName(imageName)
                 .storedFileName(storedImageName)
                 .storedFilePath(imagePath)
                 .board(board)
                 .build();
 
-        return boardImageRepository.save(boardImageDto.toEntity());
+        return boardImageRepository.save(boardImage);
     }
     
     // 실제 이미지 파일 삭제
