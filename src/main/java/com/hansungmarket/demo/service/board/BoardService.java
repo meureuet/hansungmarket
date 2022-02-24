@@ -13,7 +13,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -59,12 +58,12 @@ public class BoardService {
     // 게시글 생성
     @Transactional
     public BoardResponseDto create(BoardRequestDto requestDto, List<MultipartFile> images, String username) throws IOException {
-        Board board = requestDto.toEntity();
+        Board tempBoard = requestDto.toEntity();
         // 유저정보 저장
-        board.setUser(userRepository.findByUsername(username));
+        tempBoard.setUser(userRepository.findByUsername(username));
 
         // 게시글 저장
-        Board createdBoard = boardRepository.save(board);
+        Board createdBoard = boardRepository.save(tempBoard);
 
         // 이미지가 없는 경우
         if (CollectionUtils.isEmpty(images)) {
@@ -72,13 +71,11 @@ public class BoardService {
         }
 
         // 이미지가 있는 경우
-        List<BoardImage> boardImages = new ArrayList<>();
         for (MultipartFile image : images) {
             // 이미지 저장
             BoardImage boardImage = boardImageService.create(createdBoard, image);
-            boardImages.add(boardImage);
+            createdBoard.getBoardImages().add(boardImage);
         }
-        createdBoard.setBoardImages(boardImages);
 
         return new BoardResponseDto(createdBoard);
     }

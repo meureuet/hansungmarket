@@ -39,7 +39,7 @@ public class BoardImage {
         this.board = board;
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
+//    public void setBoard(Board board) {
+//        this.board = board;
+//    }
 }

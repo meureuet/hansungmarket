@@ -54,10 +54,6 @@ public class Board extends BaseTimeEntity {
         this.user = user;
     }
 
-    public void setBoardImages(List<BoardImage> boardImages) {
-        this.boardImages = boardImages;
-    }
-
     // 게시글 업데이트 기능
     public void update(String title, String goodsName, String goodsCategory, String content, List<BoardImage> boardImages) {
         this.title = title;
