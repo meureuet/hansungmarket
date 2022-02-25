@@ -1,7 +1,7 @@
 package com.hansungmarket.demo.entity.user;
 
 import com.hansungmarket.demo.entity.board.Board;
-import com.hansungmarket.demo.entity.board.LikedBoard;
+import com.hansungmarket.demo.entity.board.LikeBoard;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -48,7 +48,7 @@ public class User {
     @OneToMany(mappedBy = "user",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true)
-    private List<LikedBoard> likedBoards = new ArrayList<>();
+    private List<LikeBoard> likeBoards = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "board_id")
