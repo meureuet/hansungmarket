@@ -26,8 +26,7 @@ public class BoardImage {
     @Column(name = "stored_file_path")
     private String storedFilePath;
 
-    @ManyToOne
-//    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 

@@ -32,8 +32,7 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @ManyToOne
-//    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;
 
@@ -50,7 +49,7 @@ public class User {
             orphanRemoval = true)
     private List<LikeBoard> likeBoards = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 
