@@ -5,6 +5,7 @@ import com.hansungmarket.demo.dto.board.BoardResponseDto;
 import com.hansungmarket.demo.entity.board.Board;
 import com.hansungmarket.demo.entity.board.BoardImage;
 import com.hansungmarket.demo.repository.board.BoardRepository;
+import com.hansungmarket.demo.repository.board.BoardRepositoryCustom;
 import com.hansungmarket.demo.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,11 +24,16 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final BoardImageService boardImageService;
     private final UserRepository userRepository;
+    private final BoardRepositoryCustom boardRepositoryCustom;
 
     // 모든 게시글 검색
     @Transactional(readOnly = true)
     public List<BoardResponseDto> searchAll() {
-        return boardRepository.findAll().stream()
+//        return boardRepository.findAll().stream()
+//                .map(BoardResponseDto::new)
+//                .collect(Collectors.toList());
+
+        return boardRepositoryCustom.findAll().stream()
                 .map(BoardResponseDto::new)
                 .collect(Collectors.toList());
     }
