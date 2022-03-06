@@ -1,8 +1,6 @@
 package com.hansungmarket.demo.repository.board;
 
 import com.hansungmarket.demo.entity.board.Board;
-import com.hansungmarket.demo.entity.board.QBoard;
-import com.hansungmarket.demo.entity.user.QUser;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -27,7 +25,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
         return jpaQueryFactory.selectFrom(board)
                 .innerJoin(board.user).fetchJoin()
                 .leftJoin(board.boardImages).fetchJoin()
+                .distinct()
                 .fetch();
-
     }
 }
