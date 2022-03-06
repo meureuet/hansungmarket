@@ -17,7 +17,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
     @Override
     public List<Board> findByUsername(String username) {
 
-        return null; // 나중에 고칠 것
+        return null; // 나중에 수정
     }
 
     @Override
