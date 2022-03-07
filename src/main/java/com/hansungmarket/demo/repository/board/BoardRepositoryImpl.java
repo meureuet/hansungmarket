@@ -3,6 +3,7 @@ package com.hansungmarket.demo.repository.board;
 import com.hansungmarket.demo.entity.board.Board;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import static com.hansungmarket.demo.entity.board.QBoard.board;
 
 @RequiredArgsConstructor
 @Repository
+@Primary
 public class BoardRepositoryImpl implements BoardRepositoryCustom{
     private final JPAQueryFactory jpaQueryFactory;
 

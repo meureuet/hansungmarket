@@ -29,13 +29,13 @@ public class BoardService {
     // 모든 게시글 검색
     @Transactional(readOnly = true)
     public List<BoardResponseDto> searchAll() {
-//        return boardRepository.findAll().stream()
-//                .map(BoardResponseDto::new)
-//                .collect(Collectors.toList());
-
-        return boardRepositoryCustom.findAll().stream()
+        return boardRepository.findAll().stream()
                 .map(BoardResponseDto::new)
                 .collect(Collectors.toList());
+
+//        return boardRepositoryCustom.findAll().stream()
+//                .map(BoardResponseDto::new)
+//                .collect(Collectors.toList());
     }
 
     // id로 게시글 검색
