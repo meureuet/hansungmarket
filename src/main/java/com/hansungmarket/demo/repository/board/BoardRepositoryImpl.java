@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.hansungmarket.demo.entity.board.QBoard.board;
 
@@ -17,17 +18,20 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<Board> findByUsername(String username) {
-
-        return null;
-    }
-
-    @Override
-    public List<Board> findAll() {
+    public List<Board> findAllCustom() {
         return jpaQueryFactory.selectFrom(board)
                 .innerJoin(board.user).fetchJoin()
                 .leftJoin(board.boardImages).fetchJoin()
                 .distinct()
                 .fetch();
+    }
+
+    @Override
+    public Optional<Board> findByIdCustom(Long id) {
+        return Optional.ofNullable(jpaQueryFactory.selectFrom(board)
+                .innerJoin(board.user).fetchJoin()
+                .leftJoin(board.boardImages).fetchJoin()
+                .where(board.id.eq(id))
+                .fetchOne());
     }
 }
