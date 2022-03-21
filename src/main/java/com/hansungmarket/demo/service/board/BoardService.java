@@ -40,22 +40,13 @@ public class BoardService {
         return new BoardResponseDto(board);
     }
 
-    // 카테고리 검색 /////// 나중에 동적 쿼리로
+    // 동적 쿼리
     @Transactional(readOnly = true)
-    public List<BoardResponseDto> searchByCategory(String category) {
-        return boardRepository.findByGoodsCategory(category).stream()
+    public List<BoardResponseDto> searchByFields(String category, String nickname, String contentQuery) {
+        return boardRepository.findByFieldsCustom(category, nickname, contentQuery).stream()
                 .map(BoardResponseDto::new)
                 .collect(Collectors.toList());
     }
-
-    // nickname 으로 게시글 검색 /////// 나중에 동적 쿼리로
-    @Transactional(readOnly = true)
-    public List<BoardResponseDto> searchByUserId(Long id) {
-        return boardRepository.findByUserId(id).stream()
-                .map(BoardResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
 
     // 게시글 생성
     @Transactional
