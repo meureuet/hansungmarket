@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("*")
 public class LoginController {
     @PostMapping("/login")
-    @ApiOperation(value = "로그인", notes = "form 으로 username, password를 전송하면 로그인 수행(json X)")
+    @ApiOperation(value = "로그인, swagger로 테스트 불가능", notes = "form 으로 username, password를 전송하면 로그인 수행(json X)")
     public void doLogin(@RequestPart String username, @RequestPart String password) {}
 
     @PostMapping("/logout")
