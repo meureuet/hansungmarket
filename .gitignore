@@ -28,6 +28,7 @@ out/
 application.properties
 application-local.properties
 application-gcp.properties
+application-naverCloud.properties
 
 ### NetBeans ###
 /nbproject/private/
