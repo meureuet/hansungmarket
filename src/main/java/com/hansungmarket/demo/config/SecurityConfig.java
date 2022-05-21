@@ -81,6 +81,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/mail/usernames").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/mail/findPasswordToken").permitAll()
 
+                .antMatchers(HttpMethod.GET, "/api/chatRoom/**").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/api/chat/notice").hasRole("USER")
+                .antMatchers(HttpMethod.DELETE, "/api/chat/notice").hasRole("USER")
+
                 .antMatchers(PERMIT_URL_ARRAY).permitAll()
 
                 .anyRequest().authenticated()
